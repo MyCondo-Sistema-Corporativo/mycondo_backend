@@ -91,6 +91,16 @@ Este documento tem cinco objetivos:
 | `<<include>>` | UC17 e UC18 registram entrega | Publicação e entrega são fatos diferentes. |
 | `<<include>>` | UC24 inclui preservação de histórico | Conciliação não pode apagar lançamentos publicados. |
 
+### 3.3 Três casos de uso prioritários
+
+A tabela abaixo atende à atividade de conectar o comportamento dos casos de uso aos conceitos e regras do domínio. Foram selecionados três fluxos representativos: a reserva, que é o fluxo central do MyCondo; o registro de acesso, que protege a operação da portaria; e o voto, que protege uma decisão coletiva auditável.
+
+| UC | Ator | Contexto | Agregado principal | Regras | Dependência externa |
+|---|---|---|---|---|---|
+| UC04 — Solicitar reserva de área comum | Morador/Condômino | Reservas e Uso de Áreas | Reserva | O período deve ser válido; a área deve estar disponível; a regra de uso e a situação financeira aplicáveis devem ser atendidas; não pode haver sobreposição de reservas confirmadas. | Identidade e Vínculos para validar morador e unidade; Gestão Financeira para consultar adimplência e, quando houver taxa, criar cobrança; Canal de notificação para comunicar o resultado. |
+| UC10 — Registrar entrada ou saída | Portaria/Operador de segurança | Portaria e Acessos | Registro de acesso | A entrada deve possuir autorização válida ou exceção autorizada com responsável, motivo e momento; o registro deve preservar direção, pessoa e horário. | Identidade e Vínculos para validar pessoa, unidade e autorização; Canal de notificação quando a política exigir aviso; relógio/serviço de tempo para validade e auditoria. |
+| UC20 — Registrar voto elegível | Morador/Condômino ou Síndico/Administrador | Governança e Comunicação | Assembleia/Votação | A votação deve estar aberta; o participante deve ser elegível no momento; cada participante pode votar uma única vez na deliberação; o voto aceito deve ser auditável. | Identidade e Vínculos para verificar elegibilidade e unidade; Canal de notificação para convocação ou confirmação; relógio/serviço de tempo para controlar o período da votação. |
+
 ## 4. Casos de uso por ator
 
 ### 4.1 Morador/Condômino
