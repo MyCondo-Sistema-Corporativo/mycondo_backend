@@ -5,12 +5,19 @@ import { InMemoryReservationsRepository } from '../repositories/in-memory-reserv
 import { ReserveCommonAreaUseCase } from './reserve-common-area.use-case.js';
 
 describe('ReserveCommonAreaUseCase', () => {
-  it('creates a pending reservation for an eligible resident', async () => {
-    const repository = new InMemoryReservationsRepository();
-    const useCase = new ReserveCommonAreaUseCase(repository, {
-      isEligible: async () => true,
-    });
+  let repository: InMemoryReservationsRepository;
+  let useCase: ReserveCommonAreaUseCase;
+  let residentIsEligible: boolean;
 
+  beforeEach(() => {
+    repository = new InMemoryReservationsRepository();
+    residentIsEligible = true;
+    useCase = new ReserveCommonAreaUseCase(repository, {
+      isEligible: async () => residentIsEligible,
+    });
+  });
+
+  it('creates a pending reservation for an eligible resident', async () => {
     const reservation = await useCase.execute({
       reservationId: 'reservation-1',
       residentId: 'resident-1',
@@ -19,15 +26,14 @@ describe('ReserveCommonAreaUseCase', () => {
       endsAt: new Date('2026-10-10T22:00:00.000Z'),
     });
 
+    console.log('Reservation done (Exemplo de reserva) ->', reservation);
+
     expect(reservation.currentStatus).toBe(ReservationStatus.PENDING);
     expect(reservation.commonAreaId).toBe('party-room-1');
   });
 
   it('rejects a reservation for an ineligible resident', async () => {
-    const useCase = new ReserveCommonAreaUseCase(
-      new InMemoryReservationsRepository(),
-      { isEligible: async () => false },
-    );
+    residentIsEligible = false;
 
     await expect(
       useCase.execute({
@@ -41,11 +47,6 @@ describe('ReserveCommonAreaUseCase', () => {
   });
 
   it('rejects overlapping reservations for the same area', async () => {
-    const repository = new InMemoryReservationsRepository();
-    const useCase = new ReserveCommonAreaUseCase(repository, {
-      isEligible: async () => true,
-    });
-
     await useCase.execute({
       reservationId: 'reservation-1',
       residentId: 'resident-1',

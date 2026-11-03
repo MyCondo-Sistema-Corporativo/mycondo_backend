@@ -5,6 +5,7 @@ import { IReservationsRepository } from '../repositories/reservations.repository
 import { IResidentEligibilityService } from '../services/resident-eligibility.service.interface.js';
 import { ReservationPeriod } from '../value-objects/reservation-period.js';
 
+// Received data
 export interface ReserveCommonAreaRequest {
   reservationId: string;
   residentId: string;
@@ -20,6 +21,8 @@ export class ReserveCommonAreaUseCase {
   ) {}
 
   async execute(request: ReserveCommonAreaRequest): Promise<Reservation> {
+    
+    // Check if the resident is elegible
     const eligible = await this.residentEligibilityService.isEligible(
       request.residentId,
     );
@@ -28,7 +31,10 @@ export class ReserveCommonAreaUseCase {
       throw new ResidentNotEligibleException();
     }
 
+    // Validation for the informed period
     const period = new ReservationPeriod(request.startsAt, request.endsAt);
+    
+    // Validation to see if the requested schedule is already taken
     const conflict = await this.reservationsRepository.findActiveConflict(
       request.commonAreaId,
       period,
