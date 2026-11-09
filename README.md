@@ -36,12 +36,57 @@ O primeiro caso de uso do domínio implementado neste projeto é a reserva de
 - contratos de repositório e serviço para as fronteiras do domínio;
 - exceções explícitas para período inválido, conflito de agenda e
   inelegibilidade;
-- repositório em memória usado nos testes enquanto a persistência não é
-  definida.
+- repositório em memória usado pelos testes unitários;
+- PostgreSQL/TypeORM, migration, mapper e repositório concreto para a API.
 
 As regras cobertas são a validação de `início < fim`, a rejeição de períodos
 sobrepostos na mesma área e a rejeição de moradores não elegíveis. Períodos
 adjacentes são aceitos, pois não se sobrepõem.
+
+## Trabalho 9: execução do primeiro slice persistente
+
+O slice implementado é o **UC01 — Solicitar reserva de área comum**. Um morador
+elegível solicita uma área e um período; a aplicação valida o período, consulta
+conflitos ativos e persiste uma reserva `pending`. O Controller não acessa o
+ORM e as exceções de domínio são traduzidas para HTTP por filtro.
+
+Pré-requisitos: Node.js 24+, pnpm, Docker e Docker Compose.
+
+```bash
+pnpm install
+Copy-Item .env.example .env
+docker compose config
+docker compose up -d
+pnpm run migration:run
+pnpm run start:dev
+```
+
+O arquivo `.env` é local e ignorado pelo Git. Ajuste os valores se a porta
+5432 já estiver ocupada. A aplicação usa `synchronize: false`; o esquema só é
+alterado por migrations versionadas.
+
+### Contrato HTTP
+
+```text
+POST /reservas
+Content-Type: application/json
+{
+  "residentId": "resident-1",
+  "commonAreaId": "11111111-1111-4111-8111-111111111111",
+  "startsAt": "2026-11-15T18:00:00.000Z",
+  "endsAt": "2026-11-15T22:00:00.000Z"
+}
+```
+
+Responde `201` com a reserva persistida. Responde `400` para formato ausente
+ou inválido, `403` para morador não elegível, `409` para conflito e `422`
+para período rejeitado pelo domínio. O `GET /reservas/:reservationId`
+reconstitui e retorna uma reserva persistida.
+
+Requisições reproduzíveis estão em
+[`requests/reservations.http`](requests/reservations.http). O fluxo completo,
+limitações e evidências do trabalho estão em
+[`docs/trabalho_9_sistema_condominio.md`](docs/trabalho_9_sistema_condominio.md).
 
 ## Project setup
 

@@ -8,5 +8,6 @@ export interface IReservationsRepository {
     commonAreaId: string,
     period: ReservationPeriod,
   ): Promise<Reservation | null>;
+  findById(reservationId: string): Promise<Reservation | null>;
   save(reservation: Reservation): Promise<void>;
 }

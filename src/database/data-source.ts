@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import { DataSource } from 'typeorm';
-import { OrderEntity } from '../infrastructure/persistence/orders/order.orm-entity.js';
+import { ReservationOrmEntity } from '../infrastructure/persistence/reservations/reservation.orm-entity.js';
 
 export default new DataSource({
     type: 'postgres',
@@ -9,7 +9,7 @@ export default new DataSource({
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [OrderEntity],
+    entities: [ReservationOrmEntity],
     migrations: ['src/database/migrations/*.ts'],
     synchronize: false,
 });

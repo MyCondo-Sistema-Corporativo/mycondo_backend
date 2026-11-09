@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:3200
+
+### Sucesso: morador elegível e período sem conflito
+# @name createReservation
+POST {{baseUrl}}/reservas
+Content-Type: application/json
+
+{
+  "residentId": "resident-1",
+  "commonAreaId": "11111111-1111-4111-8111-111111111111",
+  "startsAt": "2026-11-15T18:00:00.000Z",
+  "endsAt": "2026-11-15T22:00:00.000Z"
+}
+
+### Impedimento de elegibilidade (403)
+POST {{baseUrl}}/reservas
+Content-Type: application/json
+
+{
+  "residentId": "resident-ineligible",
+  "commonAreaId": "11111111-1111-4111-8111-111111111111",
+  "startsAt": "2026-11-16T18:00:00.000Z",
+  "endsAt": "2026-11-16T22:00:00.000Z"
+}
+
+### Entrada inválida (422 pela regra do domínio)
+POST {{baseUrl}}/reservas
+Content-Type: application/json
+
+{
+  "residentId": "resident-1",
+  "commonAreaId": "11111111-1111-4111-8111-111111111111",
+  "startsAt": "2026-11-17T22:00:00.000Z",
+  "endsAt": "2026-11-17T18:00:00.000Z"
+}

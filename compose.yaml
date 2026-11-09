@@ -4,15 +4,15 @@ services:
     container_name: mycondo-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: mycondo_user
-      POSTGRES_PASSWORD: mycondo_dev_password
-      POSTGRES_DB: mycondo_db
+      POSTGRES_USER: ${DB_USERNAME:-mycondo_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_this_only_for_local_development}
+      POSTGRES_DB: ${DB_NAME:-mycondo_db}
     ports:
       - "5432:5432"
     volumes:
       - mycondo_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mycondo_user -d mycondo_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-mycondo_user} -d ${DB_NAME:-mycondo_db}"]
       interval: 5s
       timeout: 5s
       retries: 10

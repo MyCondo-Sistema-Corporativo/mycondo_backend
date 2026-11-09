@@ -22,4 +22,12 @@ export class InMemoryReservationsRepository implements IReservationsRepository {
   async save(reservation: Reservation): Promise<void> {
     this.reservations.push(reservation);
   }
+
+  async findById(reservationId: string): Promise<Reservation | null> {
+    return (
+      this.reservations.find(
+        (reservation) => reservation.reservationId === reservationId,
+      ) ?? null
+    );
+  }
 }

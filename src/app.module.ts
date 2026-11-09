@@ -3,6 +3,8 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ReservationsModule } from './modules/reservations/reservations.module.js';
+import { ReservationOrmEntity } from './infrastructure/persistence/reservations/reservation.orm-entity.js';
 
 @Module({
   imports: [
@@ -16,15 +18,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
-        autoLoadEntities: true,
+        port: Number(configService.get('DB_PORT', '5432')),
+        username: configService.getOrThrow('DB_USERNAME'),
+        password: configService.getOrThrow('DB_PASSWORD'),
+        database: configService.getOrThrow('DB_NAME'),
+        entities: [ReservationOrmEntity],
         synchronize: false,
+        retryAttempts: 1,
+        retryDelay: 500,
       }),
       inject: [ConfigService],
-    })
+    }),
+    ReservationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
