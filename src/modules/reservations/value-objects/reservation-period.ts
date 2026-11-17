@@ -8,6 +8,7 @@ export class ReservationPeriod {
     if (
       Number.isNaN(startsAt.getTime()) ||
       Number.isNaN(endsAt.getTime()) ||
+      startsAt <= new Date() ||
       startsAt >= endsAt
     ) {
       throw new InvalidReservationPeriodException();

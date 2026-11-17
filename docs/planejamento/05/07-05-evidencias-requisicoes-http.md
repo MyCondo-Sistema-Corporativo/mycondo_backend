@@ -1,0 +1,13 @@
+# 07-05 — Evidencias das Requisicoes HTTP
+
+**UC:** UC05 — Entregar encomenda
+**Issue:** [#7](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/7)
+**Situacao:** Bloqueado
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/05/`
+
+---
+
+## 1. Registro de Requisicoes
+
+Nenhuma requisicao HTTP manual foi executada para este endpoint (`POST /encomendas/:id/entregar`) pois a rota nao esta exposta no servidor.
