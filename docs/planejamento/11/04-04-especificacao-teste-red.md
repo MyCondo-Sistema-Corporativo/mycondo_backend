@@ -1,28 +1,67 @@
-# 04-04 - Especificacao do Teste RED
+# 04-04 — Especificacao do Primeiro Teste RED
 
-**UC:** UC11 - Publicar comunicado
+**UC:** UC11 — Publicar comunicado
 **Issue:** [#13](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/13)
-**Ator:** Sindico / Administrador
-**Destino:** `docs/planejamento/11/`
-**Fonte:** pacote de planejamento do UC11 e issue existente no GitHub.
-**Situacao:** Sem modulo de comunicacao implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/11/`
 
-## Criterio selecionado
+---
 
-Nao ha teste RED executado: o caso nao possui modulo, contrato ou endpoint implementado, e um import hipotetico seria uma falha de ambiente, nao um RED valido.
+## 1. Criterio de Aceite Selecionado
 
-## Nivel
+> **"Criar e publicar comunicado oficial para todo o condominio ou bloco especifico com titulo, conteudo e nivel de urgencia, com status PUBLISHED."**
 
-Teste unitario do caso de uso, seguindo Arrange-Act-Assert. O teste utiliza a implementacao e os doubles ja existentes, sem criar comportamento de producao.
+- **Nivel do Teste:** Teste Unitario de Caso de Uso (Camada de Aplicacao / Dominio).
+- **Justificativa Tecnica:** O teste unitario com dubles de teste em memoria isola a regra negocial pura sem depender de banco de dados, rede ou integracoes externas, propiciando feedback rapido e deterministico.
 
-## Arquivo
+---
 
-`src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts` (somente UC01).
+## 2. Estrutura AAA (Arrange, Act, Assert)
 
-## Comando
+- **Arrange (Preparacao):** Instanciacao dos repositorios em memoria e dados validos para a operacao.
+- **Act (Acao):** Invocacao do caso de uso com o payload do comando.
+- **Assert (Verificacao):** Confirmacao de que a entidade de dominio atinge o estado esperado e cumpre os invariantes de negocio.
 
-`pnpm vitest run src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts`
+---
 
-## Restricao
+## 3. Codigo-Fonte do Teste Automatizado Planejado
 
-A etapa termina em RED. Nenhuma alteracao em entidade, handler, controller ou repositorio sera feita para satisfazer o teste.
+**Arquivo de Destino:** `src/modules/communications/use-cases/publish-announcement.use-case.spec.ts`
+
+```typescript
+import { PublishAnnouncementUseCase } from './publish-announcement.use-case.js';
+import { InMemoryAnnouncementsRepository } from '../repositories/in-memory-announcements.repository.js';
+
+describe('PublishAnnouncementUseCase', () => {
+  it('publishes official announcement to all residents', async () => {
+    // Arrange
+    const repository = new InMemoryAnnouncementsRepository();
+    const useCase = new PublishAnnouncementUseCase(repository);
+
+    // Act
+    const announcement = await useCase.execute({
+      title: 'Manutencao preventiva da caixa dagua',
+      content: 'Havera interrupcao temporaria do fornecimento no dia 25/11.',
+      urgency: 'HIGH',
+      authorId: 'trustee-1',
+    });
+
+    // Assert
+    expect(announcement.id).toBeDefined();
+    expect(announcement.status).toBe('PUBLISHED');
+    expect(announcement.publishedAt).toBeInstanceOf(Date);
+  });
+});
+```
+
+---
+
+## 4. Dependencias Tecnicas e Comando de Execucao
+
+- **Contratos Minimos Necessarios:** Interface de repositorio e caso de uso a serem criados.
+- **Comando de Execucao:**
+  ```bash
+  pnpm vitest run src/modules/communications/use-cases/publish-announcement.use-case.spec.ts
+  ```
+
+> ⚠️ **RESTRICAO CAPITAL DO TDD:** Este teste deve ser introduzido sem a implementacao que o faz passar. A atividade termina rigorosamente na fase RED do TDD.

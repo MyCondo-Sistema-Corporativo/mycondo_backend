@@ -1,25 +1,31 @@
-# 04-01 - Verificacao de Prontidao
+# 04-01 — Verificacao de Prontidao (Definition of Ready)
 
-**UC:** UC12 - Realizar votacao em assembleia
-**Issue:** [#14](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/14)
-**Ator:** Morador / Sindico
-**Destino:** `docs/planejamento/12/`
-**Fonte:** pacote de planejamento do UC12 e issue existente no GitHub.
-**Situacao:** Sem modulo de assembleias implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Sistema:** MyCondo — Plataforma Integrada de Gestao de Condominios
+**UC:** UC12 — Realizar votacao em assembleia
+**Issue Principal:** [#14](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/14)
+**Ator Principal:** Morador / Sindico
+**Modulo Candidato:** `src/modules/assemblies/`
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/12/`
 
-## Matriz DoR
+---
 
-| Criterio | Avaliacao | Evidencia ou pendencia |
-|---|---|---|
-| DoR-01 Objetivo claro | Atende | Objetivo e resultado estao definidos no planejamento e na issue. |
-| DoR-02 Escopo delimitado | Atende | O pacote separa fluxo principal, excecoes e fora de escopo. |
-| DoR-03 Criterio verificavel | Atende | Ha criterios de aceite e regras mapeadas para teste. |
-| DoR-04 Dependencias identificadas | Atende | Dependencias estao registradas na matriz do pacote. |
-| DoR-05 Informacoes tecnicas | Nao atende | Modulo, contratos e testes de producao ainda nao existem. |
-| DoR-06 Responsavel definido | Nao atende | Nenhum assignee humano foi confirmado nos artefatos consultados. |
-| DoR-07 Revisao humana concluida | Nao atende | Nao ha comentario ou evidencia de revisao humana formal. |
+## 1. Avaliacao da Definition of Ready (DoR)
 
-## Decisao
+| Codigo | Condicao de Prontidao | Avaliacao | Evidencia ou Pendencia no Projeto Real |
+|---|---|---|---|
+| **DoR-01** | Objetivo claramente definido | **Atende** | Objetivo especificado no Trabalho 6 e registrado no Artefato 01-01 do UC12. |
+| **DoR-02** | Escopo delimitado | **Atende** | Fronteiras, fluxos principal/excecoes e fora de escopo estao documentados no Artefato 01-01. |
+| **DoR-03** | Criterios de aceite verificaveis | **Atende** | Criterio prioritario selecionado: "Registrar voto de morador adimplente em pauta de assembleia virtual aberta, computando a escolha e garantindo unicidade do voto por unidade autonoma.". |
+| **DoR-04** | Dependencias identificadas | **Atende** | Matriz de dependencias estabelecida no Artefato 01-06. |
+| **DoR-05** | Informacoes tecnicas disponiveis | **Nao atende** | Modulo src/modules/assemblies/ inexistente no projeto. Sem entidades de pauta, quoruns ou urnas virtuais. |
+| **DoR-06** | Responsavel definido | **Pendente de ajuste** | Equipe formal no GitHub aguarda atribuicao do assignee para a Issue #14. |
+| **DoR-07** | Revisao de planejamento concluida | **Pendente de ajuste** | Revisao cruzada registrada no Material 02, mas revisao formal por pares no PR ainda pendente. |
 
-- UC01: autorizado para a primeira atividade RED, limitada ao teste documentado no Artefato 04-04.
-- UC02-UC12: manter em `Backlog`; nao criar teste hipotetico nem declarar prontidao.
+---
+
+## 2. Diagnostico e Decisao de Prontidao
+
+- **Classificacao Final:** **NAO ATENDE CUMULATIVAMENTE (Bloqueio Tecnico).**
+- **Justificativa Tecnica:** A condicao **DoR-05** nao e atendida porque a infraestrutura de producao e os contratos minimos para este caso de uso ainda nao estao presentes no codebase.
+- **Parecer Operacional:** Manter a Issue [#14](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/14) em **`Backlog`**. A branch de trabalho e a especificacao do teste RED sao planejadas e documentadas formalmente neste pacote, mas a execucao e abertura de PR ficam postergadas ate o desbloqueio arquitetural.

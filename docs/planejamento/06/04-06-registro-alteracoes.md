@@ -1,17 +1,30 @@
-# 04-06 - Registro de Alteracoes
+# 04-06 — Registro de Alteracoes (Commit e Push)
 
-**UC:** UC06 - Autorizar e registrar acesso
+**UC:** UC06 — Autorizar e registrar acesso
 **Issue:** [#8](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/8)
-**Ator:** Morador / Portaria
-**Destino:** `docs/planejamento/06/`
-**Fonte:** pacote de planejamento do UC06 e issue existente no GitHub.
-**Situacao:** Sem modulo de acesso implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/06/`
 
-## Alteracoes permitidas
+---
 
-- UC01: um teste unitario adicional, sem producao, e os artefatos desta etapa.
-- UC02-UC12: somente documentacao de bloqueio e prontidao; nenhum codigo de producao ou teste hipotetico.
+## 1. Politica de Commits Atomicos e Semanticos
 
-## Commit e push
+Quando o teste RED for fisicamente executado na branch dedicada:
 
-Os valores de hash, diff e URL de push serao preenchidos somente com saida real do Git. Nao ha hash ou push inventado neste documento.
+- **Adicao seletiva:** Adicionar exclusivamente o arquivo de teste e interfaces indispensaveis (`git add src/modules/access-control/use-cases/authorize-access.use-case.spec.ts`).
+- **Padrao de Mensagem:** Conventional Commits com referencia a Issue:
+  ```bash
+  git commit -m "test(06): add failing test for Autorizar e protocolar entrada de visita... (ref #8)"
+  ```
+- **Publicacao Remota:**
+  ```bash
+  git push origin feature/issue-8-uc06-controle-acesso-test
+  ```
+
+---
+
+## 2. Registro Atual do Repositorio
+
+- **Commits de Codigo para UC06:** Nenhum commit artificial gerado nesta etapa.
+- **Commits de Documentacao:** Os artefatos deste planejamento estao armazenados em `docs/planejamento/06/`.
+- **Rastreabilidade:** Mantida estritamente com a Issue [#8](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/8).

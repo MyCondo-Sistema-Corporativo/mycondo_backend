@@ -1,28 +1,65 @@
-# 04-04 - Especificacao do Teste RED
+# 04-04 — Especificacao do Primeiro Teste RED
 
-**UC:** UC08 - Aprovar orcamento de ordem de servico
+**UC:** UC08 — Aprovar orcamento de ordem de servico
 **Issue:** [#10](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/10)
-**Ator:** Sindico / Administrador
-**Destino:** `docs/planejamento/08/`
-**Fonte:** pacote de planejamento do UC08 e issue existente no GitHub.
-**Situacao:** Sem modulo de ordens de servico implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/08/`
 
-## Criterio selecionado
+---
 
-Nao ha teste RED executado: o caso nao possui modulo, contrato ou endpoint implementado, e um import hipotetico seria uma falha de ambiente, nao um RED valido.
+## 1. Criterio de Aceite Selecionado
 
-## Nivel
+> **"Aprovar orcamento de ordem de servico de manutencao predial pelo sindico respeitando o teto financeiro limite, transicionando a OS para BUDGET_APPROVED."**
 
-Teste unitario do caso de uso, seguindo Arrange-Act-Assert. O teste utiliza a implementacao e os doubles ja existentes, sem criar comportamento de producao.
+- **Nivel do Teste:** Teste Unitario de Caso de Uso (Camada de Aplicacao / Dominio).
+- **Justificativa Tecnica:** O teste unitario com dubles de teste em memoria isola a regra negocial pura sem depender de banco de dados, rede ou integracoes externas, propiciando feedback rapido e deterministico.
 
-## Arquivo
+---
 
-`src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts` (somente UC01).
+## 2. Estrutura AAA (Arrange, Act, Assert)
 
-## Comando
+- **Arrange (Preparacao):** Instanciacao dos repositorios em memoria e dados validos para a operacao.
+- **Act (Acao):** Invocacao do caso de uso com o payload do comando.
+- **Assert (Verificacao):** Confirmacao de que a entidade de dominio atinge o estado esperado e cumpre os invariantes de negocio.
 
-`pnpm vitest run src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts`
+---
 
-## Restricao
+## 3. Codigo-Fonte do Teste Automatizado Planejado
 
-A etapa termina em RED. Nenhuma alteracao em entidade, handler, controller ou repositorio sera feita para satisfazer o teste.
+**Arquivo de Destino:** `src/modules/work-orders/use-cases/approve-work-order-budget.use-case.spec.ts`
+
+```typescript
+import { ApproveWorkOrderBudgetUseCase } from './approve-work-order-budget.use-case.js';
+import { InMemoryWorkOrdersRepository } from '../repositories/in-memory-work-orders.repository.js';
+
+describe('ApproveWorkOrderBudgetUseCase', () => {
+  it('approves a maintenance budget within authorization limit', async () => {
+    // Arrange
+    const repository = new InMemoryWorkOrdersRepository();
+    const useCase = new ApproveWorkOrderBudgetUseCase(repository);
+
+    // Act
+    const workOrder = await useCase.execute({
+      workOrderId: 'wo-101',
+      budgetAmount: 2500.00,
+      approvedBy: 'trustee-1',
+    });
+
+    // Assert
+    expect(workOrder.budgetStatus).toBe('APPROVED');
+    expect(workOrder.authorizedAmount).toBe(2500.00);
+  });
+});
+```
+
+---
+
+## 4. Dependencias Tecnicas e Comando de Execucao
+
+- **Contratos Minimos Necessarios:** Interface de repositorio e caso de uso a serem criados.
+- **Comando de Execucao:**
+  ```bash
+  pnpm vitest run src/modules/work-orders/use-cases/approve-work-order-budget.use-case.spec.ts
+  ```
+
+> ⚠️ **RESTRICAO CAPITAL DO TDD:** Este teste deve ser introduzido sem a implementacao que o faz passar. A atividade termina rigorosamente na fase RED do TDD.

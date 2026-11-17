@@ -1,16 +1,35 @@
-# 04-05 - Evidencias do TDD RED
+# 04-05 — Evidencias do TDD RED
 
-**UC:** UC04 - Registrar recebimento de encomenda
+**UC:** UC04 — Registrar recebimento de encomenda
 **Issue:** [#6](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/6)
-**Ator:** Portaria / Operador
-**Destino:** `docs/planejamento/04/`
-**Fonte:** pacote de planejamento do UC04 e issue existente no GitHub.
-**Situacao:** Sem modulo de encomendas implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/04/`
 
-## UC01
-A evidencia sera registrada apos a execucao real do comando no terminal. A falha esperada deve ser uma assercao funcional: o caso atualmente aceita um periodo passado, embora a regra de antecedencia minima esteja documentada.
+---
 
-## UC02-UC12
-Sem evidencia de execucao. O caso esta bloqueado antes do RED porque nao existe modulo/contrato executavel. Nenhum resultado de teste sera inventado.
+## 1. Estado da Execucao do Teste
 
-**Status:** Nao aplicavel nesta etapa.
+| Item | Situacao |
+|---|---|
+| Modulo de Producao | Nao implementado fisicamente (`src/modules/deliveries/`) |
+| Arquivo de Teste | Especificado no Artefato 04-04, nao criado fisicamente |
+| Execucao do Runner | Bloqueada antes da execucao |
+| Categoria de Bloqueio | **Bloqueio Arquitetural / DoR Incompleta** |
+
+---
+
+## 2. Justificativa Anti-Simulacao (Regra de Ouro)
+
+Em respeito as diretrizes didaticas e rigor de Engenharia de Software:
+1. **Nao sao inventadas saidas falsas de terminal.** Um erro simulado de importacao ou syntax error nao constitui um RED funcional legitimo.
+2. Para que um RED seja valido, o framework de testes precisa compilar e executar o teste, falhando exclusivamente pela **ausencia do comportamento esperado** (assercao negocial).
+3. Como os contratos para `src/modules/deliveries/` ainda nao foram adicionados ao repositorio, a execucao real geraria erro de modulo inexistente (falha de ambiente/compilacao, nao RED negocial).
+
+---
+
+## 3. Condicao de Desbloqueio para a Fase RED Real
+
+1. Criacao dos stubs de interfaces minimas no modulo `src/modules/deliveries/`.
+2. Criacao do arquivo `src/modules/deliveries/use-cases/receive-package.use-case.spec.ts`.
+3. Execucao de `pnpm vitest run src/modules/deliveries/use-cases/receive-package.use-case.spec.ts` registrando a falha funcional:
+   - Exemplo esperado: `AssertionError: expected PENDING to be CONFIRMED` ou `MethodNotImplementedException`.

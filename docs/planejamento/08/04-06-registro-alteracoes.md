@@ -1,17 +1,30 @@
-# 04-06 - Registro de Alteracoes
+# 04-06 — Registro de Alteracoes (Commit e Push)
 
-**UC:** UC08 - Aprovar orcamento de ordem de servico
+**UC:** UC08 — Aprovar orcamento de ordem de servico
 **Issue:** [#10](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/10)
-**Ator:** Sindico / Administrador
-**Destino:** `docs/planejamento/08/`
-**Fonte:** pacote de planejamento do UC08 e issue existente no GitHub.
-**Situacao:** Sem modulo de ordens de servico implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/08/`
 
-## Alteracoes permitidas
+---
 
-- UC01: um teste unitario adicional, sem producao, e os artefatos desta etapa.
-- UC02-UC12: somente documentacao de bloqueio e prontidao; nenhum codigo de producao ou teste hipotetico.
+## 1. Politica de Commits Atomicos e Semanticos
 
-## Commit e push
+Quando o teste RED for fisicamente executado na branch dedicada:
 
-Os valores de hash, diff e URL de push serao preenchidos somente com saida real do Git. Nao ha hash ou push inventado neste documento.
+- **Adicao seletiva:** Adicionar exclusivamente o arquivo de teste e interfaces indispensaveis (`git add src/modules/work-orders/use-cases/approve-work-order-budget.use-case.spec.ts`).
+- **Padrao de Mensagem:** Conventional Commits com referencia a Issue:
+  ```bash
+  git commit -m "test(08): add failing test for Aprovar orcamento de ordem de servico de... (ref #10)"
+  ```
+- **Publicacao Remota:**
+  ```bash
+  git push origin feature/issue-10-uc08-aprovar-orcamento-test
+  ```
+
+---
+
+## 2. Registro Atual do Repositorio
+
+- **Commits de Codigo para UC08:** Nenhum commit artificial gerado nesta etapa.
+- **Commits de Documentacao:** Os artefatos deste planejamento estao armazenados em `docs/planejamento/08/`.
+- **Rastreabilidade:** Mantida estritamente com a Issue [#10](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/10).

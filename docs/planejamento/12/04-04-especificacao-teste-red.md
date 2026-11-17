@@ -1,28 +1,66 @@
-# 04-04 - Especificacao do Teste RED
+# 04-04 — Especificacao do Primeiro Teste RED
 
-**UC:** UC12 - Realizar votacao em assembleia
+**UC:** UC12 — Realizar votacao em assembleia
 **Issue:** [#14](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/14)
-**Ator:** Morador / Sindico
-**Destino:** `docs/planejamento/12/`
-**Fonte:** pacote de planejamento do UC12 e issue existente no GitHub.
-**Situacao:** Sem modulo de assembleias implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/12/`
 
-## Criterio selecionado
+---
 
-Nao ha teste RED executado: o caso nao possui modulo, contrato ou endpoint implementado, e um import hipotetico seria uma falha de ambiente, nao um RED valido.
+## 1. Criterio de Aceite Selecionado
 
-## Nivel
+> **"Registrar voto de morador adimplente em pauta de assembleia virtual aberta, computando a escolha e garantindo unicidade do voto por unidade autonoma."**
 
-Teste unitario do caso de uso, seguindo Arrange-Act-Assert. O teste utiliza a implementacao e os doubles ja existentes, sem criar comportamento de producao.
+- **Nivel do Teste:** Teste Unitario de Caso de Uso (Camada de Aplicacao / Dominio).
+- **Justificativa Tecnica:** O teste unitario com dubles de teste em memoria isola a regra negocial pura sem depender de banco de dados, rede ou integracoes externas, propiciando feedback rapido e deterministico.
 
-## Arquivo
+---
 
-`src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts` (somente UC01).
+## 2. Estrutura AAA (Arrange, Act, Assert)
 
-## Comando
+- **Arrange (Preparacao):** Instanciacao dos repositorios em memoria e dados validos para a operacao.
+- **Act (Acao):** Invocacao do caso de uso com o payload do comando.
+- **Assert (Verificacao):** Confirmacao de que a entidade de dominio atinge o estado esperado e cumpre os invariantes de negocio.
 
-`pnpm vitest run src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts`
+---
 
-## Restricao
+## 3. Codigo-Fonte do Teste Automatizado Planejado
 
-A etapa termina em RED. Nenhuma alteracao em entidade, handler, controller ou repositorio sera feita para satisfazer o teste.
+**Arquivo de Destino:** `src/modules/assemblies/use-cases/cast-assembly-vote.use-case.spec.ts`
+
+```typescript
+import { CastAssemblyVoteUseCase } from './cast-assembly-vote.use-case.js';
+import { InMemoryAssemblyRepository } from '../repositories/in-memory-assembly.repository.js';
+
+describe('CastAssemblyVoteUseCase', () => {
+  it('casts vote on an open assembly item and prevents duplicate voting', async () => {
+    // Arrange
+    const repository = new InMemoryAssemblyRepository();
+    const useCase = new CastAssemblyVoteUseCase(repository);
+
+    // Act
+    const voteReceipt = await useCase.execute({
+      assemblyId: 'asm-2026',
+      agendaItemId: 'agenda-01',
+      unitId: 'apt-404',
+      option: 'YES',
+    });
+
+    // Assert
+    expect(voteReceipt.receiptNumber).toBeDefined();
+    expect(voteReceipt.recordedAt).toBeInstanceOf(Date);
+  });
+});
+```
+
+---
+
+## 4. Dependencias Tecnicas e Comando de Execucao
+
+- **Contratos Minimos Necessarios:** Interface de repositorio e caso de uso a serem criados.
+- **Comando de Execucao:**
+  ```bash
+  pnpm vitest run src/modules/assemblies/use-cases/cast-assembly-vote.use-case.spec.ts
+  ```
+
+> ⚠️ **RESTRICAO CAPITAL DO TDD:** Este teste deve ser introduzido sem a implementacao que o faz passar. A atividade termina rigorosamente na fase RED do TDD.

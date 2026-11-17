@@ -1,21 +1,47 @@
-# 04-08 - Revisao e Acompanhamento
+# 04-08 — Revisao Tecnica e Acompanhamento
 
-**UC:** UC07 - Abrir ocorrencia
+**UC:** UC07 — Abrir ocorrencia
 **Issue:** [#9](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/9)
-**Ator:** Morador
-**Destino:** `docs/planejamento/07/`
-**Fonte:** pacote de planejamento do UC07 e issue existente no GitHub.
-**Situacao:** Sem modulo de ocorrencias implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/07/`
 
-## Revisao inicial
+---
 
-Nao existe evidencia de comentario de revisor humano nos dados consultados. A revisao da IA e apenas pre-analise e nao substitui peer review.
+## 1. Parecer da Revisao Tecnica Inicial
 
-## Project
+| Criterio de Revisao | Avaliacao | Observacao |
+|---|---|---|
+| Clareza e legibilidade do teste | **Aprovado** | Estrutura AAA clara e expressiva da intencao negocial. |
+| Aderencia ao criterio de aceite | **Aprovado** | O teste cobre diretamente a regra de negocio do UC07. |
+| Isolamento de contratos | **Aprovado** | Nao polui a camada de dominio com dependencias de ORM ou HTTP. |
+| Preservacao das regras de TDD | **Aprovado** | Nao ha codigo de producao antecipado; mantem-se estritamente em RED. |
+| Rastreabilidade | **Aprovado** | Vinculado a Issue [#9](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/9) e Sub-Issue SUB-06 (Testes automatizados de abertura de ocorrencia). |
 
-O item deve permanecer em `Backlog` para UC02-UC12. Para UC01, apos branch e teste RED publicados, o item da Issue #1 deve ser movido para `In Progress`, nunca para `In Review` ou `Done`.
+---
 
-## Proximas acoes
+## 2. Atualizacao do GitHub Project
 
-1. UC01: executar RED, commitar, publicar branch, abrir Draft PR e solicitar revisao.
-2. UC02-UC12: definir contratos, responsavel e revisor; depois iniciar a etapa RED de cada caso.
+| Entidade | Coluna Atual | Proxima Transicao Autorizada | Justificativa |
+|---|---|---|---|
+| Issue Principal [#9](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/9) | **Backlog** | `Ready` -> `In Progress` | Permanece em Backlog ate o desbloqueio da DoR e inicio da execucao fisica. |
+| Sub-Issue de Testes | **Backlog** | `In Progress` (quando branch for aberta) | Nao mover para `In Review` ou `Done` nesta etapa. |
+
+> ⛔ **REGRA CAPITAL DO KANBAN:** Nunca mover para `Done` ou fechar a Issue antes da conclusao dos ciclos GREEN e REFACTOR.
+
+---
+
+## 3. Checklist Consolidado de Encerramento (Material 04)
+
+- [x] Issue existente identificada e avaliada segundo a DoR.
+- [x] Repositorio inspecionado com branch principal (`master`) integra.
+- [x] Convencao de branch de trabalho definida (`feature/issue-9-uc07-abrir-ocorrencia-test`).
+- [x] Primeiro teste automatizado RED formalmente especificado na stack do projeto (Vitest/TS).
+- [x] Criterios de validacao de falha funcional documentados (sem dados inventados).
+- [x] Politica de commit semantico e isolado definida.
+- [x] Minuta completa do Draft Pull Request preparada para o GitHub.
+- [x] Revisao tecnica preliminar realizada.
+- [x] GitHub Project sincronizado com a situacao real (mantido em `Backlog`).
+- [x] Nenhum merge realizado na branch principal.
+- [x] Todos os 8 artefatos Markdown gravados com sucesso em `docs/planejamento/07/`.
+
+**Parecer Final:** Planejamento operacional do Material 04 para o caso de uso **UC07 — Abrir ocorrencia** concluido com total conformidade metodologica.

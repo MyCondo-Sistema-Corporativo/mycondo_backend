@@ -1,28 +1,66 @@
-# 04-04 - Especificacao do Teste RED
+# 04-04 — Especificacao do Primeiro Teste RED
 
-**UC:** UC10 - Registrar e conciliar pagamento
+**UC:** UC10 — Registrar e conciliar pagamento
 **Issue:** [#12](https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/issues/12)
-**Ator:** Administradora / Gateway
-**Destino:** `docs/planejamento/10/`
-**Fonte:** pacote de planejamento do UC10 e issue existente no GitHub.
-**Situacao:** Sem fluxo financeiro implementado. A execucao fica bloqueada ate existirem contratos e implementacao do caso.
+**Data:** 17 de novembro de 2026
+**Diretorio:** `docs/planejamento/10/`
 
-## Criterio selecionado
+---
 
-Nao ha teste RED executado: o caso nao possui modulo, contrato ou endpoint implementado, e um import hipotetico seria uma falha de ambiente, nao um RED valido.
+## 1. Criterio de Aceite Selecionado
 
-## Nivel
+> **"Registrar liquidacao de cobranca bancaria via webhook ou retorno de arquivo CNAB, conciliando a fatura e baixando o titulo financeiro com status RECONCILED."**
 
-Teste unitario do caso de uso, seguindo Arrange-Act-Assert. O teste utiliza a implementacao e os doubles ja existentes, sem criar comportamento de producao.
+- **Nivel do Teste:** Teste Unitario de Caso de Uso (Camada de Aplicacao / Dominio).
+- **Justificativa Tecnica:** O teste unitario com dubles de teste em memoria isola a regra negocial pura sem depender de banco de dados, rede ou integracoes externas, propiciando feedback rapido e deterministico.
 
-## Arquivo
+---
 
-`src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts` (somente UC01).
+## 2. Estrutura AAA (Arrange, Act, Assert)
 
-## Comando
+- **Arrange (Preparacao):** Instanciacao dos repositorios em memoria e dados validos para a operacao.
+- **Act (Acao):** Invocacao do caso de uso com o payload do comando.
+- **Assert (Verificacao):** Confirmacao de que a entidade de dominio atinge o estado esperado e cumpre os invariantes de negocio.
 
-`pnpm vitest run src/modules/reservations/use-cases/reserve-common-area.use-case.spec.ts`
+---
 
-## Restricao
+## 3. Codigo-Fonte do Teste Automatizado Planejado
 
-A etapa termina em RED. Nenhuma alteracao em entidade, handler, controller ou repositorio sera feita para satisfazer o teste.
+**Arquivo de Destino:** `src/modules/finance/use-cases/reconcile-payment.use-case.spec.ts`
+
+```typescript
+import { ReconcilePaymentUseCase } from './reconcile-payment.use-case.js';
+import { InMemoryFinanceRepository } from '../repositories/in-memory-finance.repository.js';
+
+describe('ReconcilePaymentUseCase', () => {
+  it('reconciles payment and marks invoice as settled', async () => {
+    // Arrange
+    const repository = new InMemoryFinanceRepository();
+    const useCase = new ReconcilePaymentUseCase(repository);
+
+    // Act
+    const transaction = await useCase.execute({
+      invoiceId: 'inv-505',
+      paymentMethod: 'PIX',
+      paidAmount: 350.00,
+      settlementDate: new Date('2026-11-17T12:00:00.000Z'),
+    });
+
+    // Assert
+    expect(transaction.status).toBe('RECONCILED');
+    expect(transaction.settledAmount).toBe(350.00);
+  });
+});
+```
+
+---
+
+## 4. Dependencias Tecnicas e Comando de Execucao
+
+- **Contratos Minimos Necessarios:** Interface de repositorio e caso de uso a serem criados.
+- **Comando de Execucao:**
+  ```bash
+  pnpm vitest run src/modules/finance/use-cases/reconcile-payment.use-case.spec.ts
+  ```
+
+> ⚠️ **RESTRICAO CAPITAL DO TDD:** Este teste deve ser introduzido sem a implementacao que o faz passar. A atividade termina rigorosamente na fase RED do TDD.
