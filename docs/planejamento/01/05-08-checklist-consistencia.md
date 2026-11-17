@@ -13,7 +13,8 @@
 - [x] Suite unit?ria: 7/7.
 - [x] Build e lint aprovados.
 - [x] Analise de qualidade realizada.
-- [ ] Commit GREEN e push desta etapa.
+- [x] Commit GREEN registrado: `f899fee`.
+- [ ] Push desta etapa.
 - [ ] Revisao humana e merge.
 
 Parecer: GREEN tecnico confirmado; etapa ainda nao concluida para integracao ou REFACTOR.
