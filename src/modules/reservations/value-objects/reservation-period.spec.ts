@@ -20,12 +20,12 @@ describe('ReservationPeriod', () => {
 
   it('allows adjacent periods without overlap', () => {
     const first = new ReservationPeriod(
-      new Date('2026-10-10T18:00:00.000Z'),
-      new Date('2026-10-10T20:00:00.000Z'),
+      new Date('2026-12-10T18:00:00.000Z'),
+      new Date('2026-12-10T20:00:00.000Z'),
     );
     const second = new ReservationPeriod(
-      new Date('2026-10-10T20:00:00.000Z'),
-      new Date('2026-10-10T22:00:00.000Z'),
+      new Date('2026-12-10T20:00:00.000Z'),
+      new Date('2026-12-10T22:00:00.000Z'),
     );
 
     const overlaps = first.overlaps(second);
