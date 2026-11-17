@@ -24,5 +24,16 @@ O diff adiciona somente o cenario RED de antecedencia minima. Os artefatos
 Markdown desta etapa tambem serao versionados; as exclusoes locais existentes
 fora desse escopo permanecem unstaged.
 
-Hash do commit, saida do push e URL da branch serao registrados apos a
-execucao real dos comandos Git.
+Commit real:
+
+`9b424ccced9b17c0aa59b0513ec12f69bd95bdb6`
+
+Mensagem:
+
+`test(uc01): add RED test for minimum reservation advance (ref #1)`
+
+Push real:
+
+`origin/test/issue-1-uc01-red-periodo-antecedencia`
+
+O push configurou o upstream da branch com sucesso.

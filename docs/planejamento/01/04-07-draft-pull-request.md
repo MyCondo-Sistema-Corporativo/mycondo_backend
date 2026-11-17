@@ -15,7 +15,12 @@ Estado: Draft
 
 Descricao planejada: adicionar o teste RED da antecedencia minima, registrar a falha funcional e deixar a implementacao para a etapa GREEN.
 
-URL real do PR: sera preenchida somente apos a abertura real.
+URL real do PR:
+
+https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/pull/15
+
+O PR foi criado como Draft, com base `master` e origem
+`test/issue-1-uc01-red-periodo-antecedencia`.
 
 ## UC02-UC12
 Nao abrir PR nesta etapa: a DoR tecnica nao permite um teste executavel sem contrato ou modulo.
