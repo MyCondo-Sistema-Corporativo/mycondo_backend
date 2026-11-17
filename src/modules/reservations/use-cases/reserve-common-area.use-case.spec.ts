@@ -1,5 +1,6 @@
 import { ReservationStatus } from '../../../common/enum/reservation-status.enum.js';
 import { ReservationConflictException } from '../../../common/exceptions/reservation-conflict.exception.js';
+import { InvalidReservationPeriodException } from '../../../common/exceptions/invalid-reservation-period.exception.js';
 import { ResidentNotEligibleException } from '../../../common/exceptions/resident-not-eligible.exception.js';
 import { InMemoryReservationsRepository } from '../repositories/in-memory-reservations.repository.js';
 import { ReserveCommonAreaUseCase } from './reserve-common-area.use-case.js';
@@ -64,5 +65,17 @@ describe('ReserveCommonAreaUseCase', () => {
         endsAt: new Date('2026-10-10T23:00:00.000Z'),
       }),
     ).rejects.toBeInstanceOf(ReservationConflictException);
+  });
+
+  it('rejects a reservation that does not meet the minimum advance notice', async () => {
+    await expect(
+      useCase.execute({
+        reservationId: 'reservation-past',
+        residentId: 'resident-1',
+        commonAreaId: 'party-room-1',
+        startsAt: new Date('2026-01-01T18:00:00.000Z'),
+        endsAt: new Date('2026-01-01T22:00:00.000Z'),
+      }),
+    ).rejects.toBeInstanceOf(InvalidReservationPeriodException);
   });
 });
