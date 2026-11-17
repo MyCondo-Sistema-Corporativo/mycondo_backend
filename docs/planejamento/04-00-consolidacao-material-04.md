@@ -2,9 +2,13 @@
 
 A opcao A foi aplicada: os oito artefatos foram preparados para todos os UCs; a execucao Git/RED fica limitada ao UC01, unico caso com base executavel.
 
+UC01 possui a branch `test/issue-1-uc01-red-periodo-antecedencia`, o commit
+`9b424ccced9b17c0aa59b0513ec12f69bd95bdb6` e o Draft PR
+https://github.com/MyCondo-Sistema-Corporativo/mycondo_backend/pull/15.
+
 | UC | Issue | Artefatos | Execucao | Estado |
 |---|---:|---|---|---|
-| UC01 | #1 | `docs/planejamento/01/04-01` a `04-08` | Branch, teste RED, commit, push e Draft PR | Em execucao |
+| UC01 | #1 | `docs/planejamento/01/04-01` a `04-08` | Branch, teste RED, commit, push e Draft PR #15 | In Progress |
 | UC02 | #4 | `docs/planejamento/02/04-01` a `04-08` | Bloqueado: sem modulo/contrato executavel | Backlog / DoR incompleta |
 | UC03 | #5 | `docs/planejamento/03/04-01` a `04-08` | Bloqueado: sem modulo/contrato executavel | Backlog / DoR incompleta |
 | UC04 | #6 | `docs/planejamento/04/04-01` a `04-08` | Bloqueado: sem modulo/contrato executavel | Backlog / DoR incompleta |
