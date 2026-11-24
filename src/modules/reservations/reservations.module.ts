@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RESERVE_COMMON_AREA_USE_CASE, ReserveCommonAreaUseCase } from './use-cases/reserve-common-area.use-case.js';
+import { LIST_RESERVATIONS_USE_CASE, ListReservationsUseCase } from './use-cases/list-reservations.use-case.js';
 import { IReservationsRepository, RESERVATIONS_REPOSITORY } from './repositories/reservations.repository.interface.js';
 import { IResidentEligibilityService, RESIDENT_ELIGIBILITY_SERVICE } from './services/resident-eligibility.service.interface.js';
 import { ReservationsController } from './http/reservations.controller.js';
@@ -30,6 +31,12 @@ import { ConfiguredResidentEligibilityService } from '../../infrastructure/persi
         eligibilityService: IResidentEligibilityService,
       ) => new ReserveCommonAreaUseCase(repository, eligibilityService),
       inject: [RESERVATIONS_REPOSITORY, RESIDENT_ELIGIBILITY_SERVICE],
+    },
+    {
+      provide: LIST_RESERVATIONS_USE_CASE,
+      useFactory: (repository: IReservationsRepository) =>
+        new ListReservationsUseCase(repository),
+      inject: [RESERVATIONS_REPOSITORY],
     },
   ],
   exports: [RESERVATIONS_REPOSITORY],

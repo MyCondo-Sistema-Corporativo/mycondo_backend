@@ -1,12 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { ReservationsController } from './reservations.controller.js';
 import {
   RESERVE_COMMON_AREA_USE_CASE,
   ReserveCommonAreaUseCase,
 } from '../use-cases/reserve-common-area.use-case.js';
+import {
+  LIST_RESERVATIONS_USE_CASE,
+  ListReservationsUseCase,
+} from '../use-cases/list-reservations.use-case.js';
 import {
   RESERVATIONS_REPOSITORY,
   IReservationsRepository,
@@ -47,6 +51,12 @@ describe('Reservations Integrated Backend (HTTP -> Controller -> UseCase -> InMe
             elig: IResidentEligibilityService,
           ) => new ReserveCommonAreaUseCase(repo, elig),
           inject: [RESERVATIONS_REPOSITORY, RESIDENT_ELIGIBILITY_SERVICE],
+        },
+        {
+          provide: LIST_RESERVATIONS_USE_CASE,
+          useFactory: (repo: IReservationsRepository) =>
+            new ListReservationsUseCase(repo),
+          inject: [RESERVATIONS_REPOSITORY],
         },
       ],
     }).compile();
@@ -185,5 +195,22 @@ describe('Reservations Integrated Backend (HTTP -> Controller -> UseCase -> InMe
         controllers: [ReservationsController],
       }).compile(),
     ).rejects.toThrow(/Nest can't resolve dependencies of the ReservationsController/);
+  });
+
+  it('Cenário 7 (Listagem de Coleção) — GET /reservas retorna array de reservas persistidas no InMemoryRepo ordenado por data', async () => {
+    // Act
+    const res = await request(app.getHttpServer())
+      .get('/reservas')
+      .expect(200);
+
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBeGreaterThan(0);
+    // Valida que cada item reflete a estrutura pública de ReservationResponseDto
+    expect(res.body[0]).toHaveProperty('reservationId');
+    expect(res.body[0]).toHaveProperty('residentId');
+    expect(res.body[0]).toHaveProperty('commonAreaId');
+    expect(res.body[0]).toHaveProperty('startsAt');
+    expect(res.body[0]).toHaveProperty('endsAt');
+    expect(res.body[0]).toHaveProperty('status');
   });
 });

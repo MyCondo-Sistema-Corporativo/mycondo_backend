@@ -1,0 +1,17 @@
+node_modules
+dist
+coverage
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+.idea
+.vscode
+.gemini
+tmp
+scratch

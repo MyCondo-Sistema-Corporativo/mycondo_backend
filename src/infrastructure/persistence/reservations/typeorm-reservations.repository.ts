@@ -30,6 +30,15 @@ export class TypeOrmReservationsRepository implements IReservationsRepository {
     return entity ? ReservationMapper.toDomain(entity) : null;
   }
 
+  async findAll(): Promise<Reservation[]> {
+    const entities = await this.repository.find({
+      order: {
+        startsAt: 'ASC',
+      },
+    });
+    return entities.map((entity) => ReservationMapper.toDomain(entity));
+  }
+
   async save(reservation: Reservation): Promise<void> {
     await this.repository.save(ReservationMapper.toPersistence(reservation));
   }

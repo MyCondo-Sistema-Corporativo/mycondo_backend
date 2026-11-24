@@ -59,3 +59,8 @@ Content-Type: application/json
 ### Consulta de reserva por ID (200 OK)
 GET {{baseUrl}}/reservas/{{createReservation.response.body.reservationId}}
 
+### Listagem de todas as reservas (UC13 — 200 OK)
+# @name listReservations
+GET {{baseUrl}}/reservas
+
+

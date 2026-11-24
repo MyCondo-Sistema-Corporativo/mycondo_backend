@@ -30,4 +30,10 @@ export class InMemoryReservationsRepository implements IReservationsRepository {
       ) ?? null
     );
   }
+
+  async findAll(): Promise<Reservation[]> {
+    return [...this.reservations].sort(
+      (a, b) => a.period.startsAt.getTime() - b.period.startsAt.getTime(),
+    );
+  }
 }

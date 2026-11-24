@@ -9,5 +9,6 @@ export interface IReservationsRepository {
     period: ReservationPeriod,
   ): Promise<Reservation | null>;
   findById(reservationId: string): Promise<Reservation | null>;
+  findAll(): Promise<Reservation[]>;
   save(reservation: Reservation): Promise<void>;
 }
