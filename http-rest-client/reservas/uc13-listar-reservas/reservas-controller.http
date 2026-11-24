@@ -1,0 +1,5 @@
+@baseUrl = http://localhost:3200
+
+### Listar todas as reservas (UC13 — esperado: 200 OK com array estruturado)
+GET {{baseUrl}}/reservas
+Accept: application/json

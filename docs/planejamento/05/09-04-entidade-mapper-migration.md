@@ -1,0 +1,10 @@
+# Artefato 09-04: Entidade ORM, Mapper e Migration
+**Caso de Uso:** UC05 — Registro de Ocorrências  
+**Status:** Bloqueado em Backlog  
+
+---
+
+## 1. Planejamento de Persistência
+- Entidade `IncidentOrmEntity` mapeando as colunas da tabela `incidents`.
+- Mapper desacoplado convertendo entre domínio e entidade ORM.
+- Migration DDL para criação da tabela e índices relacionais.

@@ -12,15 +12,20 @@ import {
 import { randomUUID } from 'node:crypto';
 import { ReservationExceptionFilter } from './reservations.exception-filter.js';
 import { ReserveCommonAreaDto } from './reserve-common-area.dto.js';
+import { ReservationResponseDto } from './reservation-response.dto.js';
+import { ReservationHttpMapper } from './reservation-http.mapper.js';
 import {
   RESERVE_COMMON_AREA_USE_CASE,
   ReserveCommonAreaUseCase,
 } from '../use-cases/reserve-common-area.use-case.js';
 import {
+  LIST_RESERVATIONS_USE_CASE,
+  ListReservationsUseCase,
+} from '../use-cases/list-reservations.use-case.js';
+import {
   RESERVATIONS_REPOSITORY,
 } from '../repositories/reservations.repository.interface.js';
 import type { IReservationsRepository } from '../repositories/reservations.repository.interface.js';
-import { Reservation } from '../entities/reservation.entity.js';
 import { Inject } from '@nestjs/common';
 
 @Controller('reservas')
@@ -29,12 +34,22 @@ export class ReservationsController {
   constructor(
     @Inject(RESERVE_COMMON_AREA_USE_CASE)
     private readonly reserveCommonArea: ReserveCommonAreaUseCase,
+    @Inject(LIST_RESERVATIONS_USE_CASE)
+    private readonly listReservations: ListReservationsUseCase,
     @Inject(RESERVATIONS_REPOSITORY)
     private readonly reservationsRepository: IReservationsRepository,
   ) {}
 
+  @Get()
+  async list(): Promise<ReservationResponseDto[]> {
+    const reservations = await this.listReservations.execute();
+    return reservations.map((reservation) =>
+      ReservationHttpMapper.toResponseDto(reservation),
+    );
+  }
+
   @Post()
-  async create(@Body() body: ReserveCommonAreaDto): Promise<ReservationResponse> {
+  async create(@Body() body: ReserveCommonAreaDto): Promise<ReservationResponseDto> {
     const startsAt = this.parseDate(body.startsAt, 'startsAt');
     const endsAt = this.parseDate(body.endsAt, 'endsAt');
     this.requireText(body.residentId, 'residentId');
@@ -48,20 +63,20 @@ export class ReservationsController {
       endsAt,
     });
 
-    return ReservationsController.toResponse(reservation);
+    return ReservationHttpMapper.toResponseDto(reservation);
   }
 
   @Get(':reservationId')
   async findById(
     @Param('reservationId', new ParseUUIDPipe()) reservationId: string,
-  ): Promise<ReservationResponse> {
+  ): Promise<ReservationResponseDto> {
     const reservation =
       await this.reservationsRepository.findById(reservationId);
     if (!reservation) {
       throw new NotFoundException('Reservation not found.');
     }
 
-    return ReservationsController.toResponse(reservation);
+    return ReservationHttpMapper.toResponseDto(reservation);
   }
 
   private parseDate(value: string, field: string): Date {
@@ -81,28 +96,5 @@ export class ReservationsController {
       throw new BadRequestException(`${field} is required.`);
     }
   }
-
-  private static toResponse(reservation: Reservation): ReservationResponse {
-    return {
-      reservationId: reservation.reservationId,
-      residentId: reservation.residentId,
-      commonAreaId: reservation.commonAreaId,
-      startsAt: reservation.period.startsAt.toISOString(),
-      endsAt: reservation.period.endsAt.toISOString(),
-      status: reservation.currentStatus,
-      createdAt: reservation.createdAt.toISOString(),
-      updatedAt: reservation.updatedAt.toISOString(),
-    };
-  }
 }
 
-interface ReservationResponse {
-  reservationId: string;
-  residentId: string;
-  commonAreaId: string;
-  startsAt: string;
-  endsAt: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-}

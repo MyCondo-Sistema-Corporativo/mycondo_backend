@@ -17,5 +17,25 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    container_name: mycondo-api
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mycondo-api:dev
+    ports:
+      - "${PORT:-3200}:3200"
+    environment:
+      PORT: 3200
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:-mycondo_user}
+      DB_PASSWORD: ${DB_PASSWORD:-change_this_only_for_local_development}
+      DB_NAME: ${DB_NAME:-mycondo_db}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   mycondo_postgres_data:

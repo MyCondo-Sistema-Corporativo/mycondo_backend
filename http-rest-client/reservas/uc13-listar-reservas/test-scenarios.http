@@ -1,0 +1,9 @@
+@baseUrl = http://localhost:3200
+
+### Cenário 1: Listagem padrão de reservas (CA01, CA02 → esperado: 200 OK com coleção ordenada por startsAt ASC)
+GET {{baseUrl}}/reservas
+Accept: application/json
+
+### Cenário 2: Rota inexistente (→ esperado: 404 Not Found)
+GET {{baseUrl}}/reservas-inexistentes
+Accept: application/json
